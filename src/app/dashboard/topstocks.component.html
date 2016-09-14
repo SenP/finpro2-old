@@ -1,0 +1,19 @@
+<div class="table-responsive">
+	<table class="table table-bordered topTable" *ngIf="topStocks?.length >	0">
+		<thead>
+			<tr class="info">
+				<th>Stock Code </th>
+				<th>Exchange </th>
+				<th class="number-field">{{ title }} </th>
+			</tr>
+		</thead>
+		<!--Display the stocks in the watchlist-->
+		<tbody>
+			<tr *ngFor="let stock of topStocks">
+				<td> {{ stock.instrument }} </td>
+				<td> {{ stock.exchange }} </td>
+				<td class="number-field"> {{ stock[orderBy] | number:'1.2-2' }} </td>
+			</tr>
+		</tbody>
+	</table>
+</div>

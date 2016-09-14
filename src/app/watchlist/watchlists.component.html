@@ -1,0 +1,55 @@
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<span class="glyphicon glyphicon-eye-open"></span> Watchlists
+		<span *ngIf="!isEditing && !isAdding && !isDeleting" class="pull-right">
+			<!--Display create button-->
+			<span class="btn btn-success btn-xs" (click)="addWatchlist()">
+				<i class="fa fa-plus" ></i>
+			</span>
+		<!--Display Edit button-->
+		<span *ngIf="selectedWatchlist" class="btn btn-warning btn-xs" (click)="editWatchlist()">
+				<i class="fa fa-pencil-square-o"></i>
+			</span>
+		<!--Display Delete button-->
+		<span *ngIf="selectedWatchlist" class="btn btn-danger btn-xs" (click)="deleteWatchlist()">
+				<i class="fa fa-trash-o"></i> 
+			</span>
+		</span>
+	</div>
+
+	<div>
+		<div *ngIf="watchlists.length == 0">
+			<h2> No Watchlists available! </h2>
+			<p> Click the + button above to create a new watchlist.</p>
+		</div>
+		<div *ngIf="isEditing || isAdding">
+			<form #f="ngForm" (ngSubmit)="saveWatchlist()" class="form">
+				<div class="form-group">
+					<label> Name: </label>
+					<input #editName type="text" name="name" class="form-control input-sm" [(ngModel)]="editedItem.name"
+							maxlength="15" required>
+				</div>
+				<div class="form-group">
+					<label> Description: </label>
+					<input type="textarea" name="description" class="form-control input-sm" [(ngModel)]="editedItem.description"
+							maxlength="50">
+				</div>
+				<br>
+				<button type="submit" class="btn btn-primary btn-sm" [disabled]="!f.valid">Save</button>
+				<button type="button" class="btn btn-danger btn-sm" (click)="resetView()">Cancel</button>
+			</form>
+		</div>
+		<div *ngIf="msg" [class]="msgClass"> {{ msg }}
+			<button type="button" class="close" (click)="msg = null"><span>&times;</span></button>
+		</div>
+	</div>
+	<!--Display watchlists only if no operation is being performed-->
+	<div *ngIf="!isEditing && !isAdding && !isDeleting" class="list-group">
+		<div *ngFor="let w of watchlists">
+			<a class="list-group-item" href="#" [class.list-group-item-info]="w === selectedWatchlist"
+					(click)="onChangeSelection(w)">
+					{{ w.name }}										
+				</a>
+		</div>
+	</div>
+</div>

@@ -1,3 +1,40 @@
-<h1>
-  {{title}}
-</h1>
+<nav-bar></nav-bar>
+<div class="container-fluid">
+	<div class="row">
+		<!--Side bar-->
+		<div class="col-md-3 side-bar">
+			<!--button for dashboard view-->
+			<div>
+				<button class="btn btn-success center-block" (click)="wl.onChangeSelection(null)">
+                      View Dashboard
+                </button>
+				<br>
+			</div>			
+			<!--Display watchlist names-->
+			<fp-watchlists #wl [watchlists]="watchlists" (changeSelection)="onSelect($event)"></fp-watchlists>
+			<br>
+			<hr />
+			<!--Price update interval option change-->
+			<div>
+				<label> Price update interval: </label> &nbsp;
+				<select name="timer" [(ngModel)]="refInterval">
+						<option *ngFor="let f of refFreqs" [value]="f"> {{ f }}</option>
+					</select>
+				&nbsp;
+				<label> seconds </label> &nbsp;
+				<button class="btn btn-default btn-xs pull-right" (click)="onChangeTimer()">
+                      	Change
+                	</button>
+			</div>
+			<hr />
+		</div>
+		<!--Main area to display list of stocks in selected watchlist-->
+		<div *ngIf="selectedWatchlist" class="col-md-9 main-area">
+			<fp-watchlist [watchlist]="selectedWatchlist"></fp-watchlist>
+		</div>
+		<!--Display dashboard if no watchlist is selected-->
+		<div *ngIf="!selectedWatchlist" class="col-md-9 main-area">
+			<fp-dashboard [watchlists]="watchlists"></fp-dashboard>
+		</div>
+	</div>
+</div>
